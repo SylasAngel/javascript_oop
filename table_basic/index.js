@@ -134,10 +134,15 @@ rowSpan.Render(rowspanBodyArr)
 const button = document.createElement('button')
 button.innerText= "row hozzáadás"
 document.body.appendChild(button)
+/**
+ * @type {RowspanRowType}
+ */
     const obj= {
-    author:'Bah',
-    title:'bah',
-    concepts:'bah'
+    author:'Bah1',
+    title1:'bah2',
+    concepts1:'bah3',
+    title2:'bah4',
+    concepts2:'bah5'
 }
 
 button.addEventListener('click',onClickButton.bind(rowSpan))
@@ -153,9 +158,57 @@ function onClickButton(){
     td1.innerText = obj.author
     const td2 = document.createElement('td')
     tableRow.appendChild(td2)
-    td2.innerText = obj.title
+    td2.innerText = obj.title1
     const td3 = document.createElement('td')
     tableRow.appendChild(td3)
-    td3.innerText = obj.concepts
+    td3.innerText = obj.concepts1
+    if(obj.title2 && obj.concepts2)
+    {
+        const tablerow2 = document.createElement('tr')
+        tbody.appendChild(tablerow2)
+        const td4 = document.createElement('td')
+        tablerow2.appendChild(td4)
+        td4.innerText = obj.title2
+        const td5 = document.createElement('td')
+        tablerow2.appendChild(td5)
+        td5.innerText = obj.concepts2
+        td1.rowSpan= 2
+    }
+
+})
+}
+
+const button1 = document.createElement('button')
+button1.innerText= "colSpanrow hozzáadás"
+document.body.appendChild(button1)
+    const obj1= {
+    author:'Bah1',
+    title:'bah2',
+    concepts:'bah3',
+    concepts2: 'bah4'
+
+}
+
+button1.addEventListener('click',onClickButtonCol.bind(colSpan))
+/**
+ * @this a táblázat példány
+ */
+function onClickButtonCol(){
+    this.appendRow(function(tbody){
+    const tableRow = document.createElement('tr')
+    tbody.appendChild(tableRow)
+    const td1 = document.createElement('td')
+    tableRow.appendChild(td1)
+    td1.innerText = obj1.author
+    const td2 = document.createElement('td')
+    tableRow.appendChild(td2)
+    td2.innerText = obj1.title
+    const td3 = document.createElement('td')
+    tableRow.appendChild(td3)
+    td3.innerText = obj1.concepts
+    const td4 = document.createElement('td')
+    tableRow.appendChild(td4)
+    td4.innerText = obj1.concepts2
+    
 })
 }
