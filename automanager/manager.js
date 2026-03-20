@@ -9,6 +9,12 @@
  * @returns {void}
  */
 
+/**
+ * @callback ImportResultCallback
+ * @param {string} resultMessage
+ * @returns {void}
+ */
+
 class AuthorManager{
     /**
      * @type {Author[]}
@@ -25,7 +31,10 @@ class AuthorManager{
      */
     #addElementResultCallback
 
-
+    /**
+     * @type {ImportResultCallback}
+     */
+    #importResultCallback
     /**
      * @param {TableCallback}
      */
@@ -38,6 +47,13 @@ class AuthorManager{
      */
     set AddElementResultCalback(value){
         this.#addElementResultCallback = value
+    }
+
+    /**
+     * @param {ImportResultCallback} value
+     */
+    set importResultCallback(value){
+        this.#importResultCallback = value
     }
 
     constructor(){
@@ -60,7 +76,28 @@ class AuthorManager{
         }else{
             this.#addElementResultCallback('sikertelen elem felvétel')
         }
+    }
 
+    /**
+     * 
+     * @param {import(".").AuthorType[]} elementList 
+     * @returns {void}
+     */
+    addElementList(elementList){
+        for(const elem of elementList){
+            const author = new Author()
+            author.id = this.#authorList.length
+            author.name = elem.author
+            author.concept = elem.concept
+            author.work = elem.work
+            if(author.validate()){
+                this.#authorList.push(author)
+                this.#importResultCallback('Sikeres volt a file feltöltése')
+            }else{
+                this.#importResultCallback('Nem volt sikeres a file feltöltés')
+                break
+            }
+        }
 
     }
 
@@ -69,6 +106,17 @@ class AuthorManager{
      */
     getAllElement(){
         this.#tableCallback(this.#authorList)
+    }
+
+    /**
+     * @returns {string}
+     */
+    getExportContent(){
+        const result = []
+        for(const author of this.#authorList){
+            result.push(`${author.name};${author.work};${author.concept}`)
+        }
+        return result.join('\n')
     }
 
 }
